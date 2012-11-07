@@ -24,3 +24,7 @@ Generator copied views to app/views/charges
 
 Edit markup of charge form in new.html.erb
 
+
+# License
+
+Supercharged is released under the MIT License

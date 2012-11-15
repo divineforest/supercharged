@@ -8,13 +8,15 @@ class GatewayNotificationsController < ApplicationController
       "not_completed"
     elsif !@notification.acknowledge
       "acknowledge_failed"
-    elsif @notification.charge
+    elsif !@notification.charge
       "charge not found"
     end
 
     if error
-      @notification.charge.failed!
-      @notification.charge.update_attribute(:error, error)
+      if @notification.charge
+        @notification.charge.failed!
+        @notification.charge.update_attribute(:error, error)
+      end
       head :bad_request
     else
       # success

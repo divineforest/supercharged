@@ -8,6 +8,8 @@ class GatewayNotificationsController < ApplicationController
       "not_completed"
     elsif !@notification.acknowledge
       "acknowledge_failed"
+    elsif @notification.charge
+      "charge not found"
     end
 
     if error

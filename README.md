@@ -18,12 +18,30 @@ run
     rails g supercharged:views
 
 
-## Using
+# Using
 
-Generator copied views to app/views/charges
+Create view in app/views/supercharged/charges/new.html.haml
 
-Edit markup of charge form in new.html.erb
+```haml
+= charge_form_for(:paypal, account: "yourpaypalaccountid", html: {}) do |service|
+  - service.description t('.payment_service_invoice_description')
+  = charge_form_amount_field(service)
+  = submit_tag t('.refill')
 
+```
+
+# Customization
+
+## Controller
+
+Create controller in app/controllers/charges_controller.rb and inherit from Payments::ChargesController.
+Then add what you need or change existing methods with 'super'.
+
+```ruby
+class ChargesController < Payments::ChargesController
+  before_filter :authenticate_user! # this is Devise's authenticate method
+end
+```
 
 # License
 

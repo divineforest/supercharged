@@ -13,17 +13,20 @@ class GatewayNotificationsController < ApplicationController
     end
 
     if error
+      logger.error("Error: #{error.inspect}")
       if @notification.charge
         @notification.charge.failed!
         @notification.charge.update_attribute(:error, error)
       end
       head :bad_request
     else
-      # success
+      logger.info("Success")
       @notification.charge.approve unless @notification.charge.ok?
       if @notification.need_response?
+        logger.info("Need need_response: #{@notification.success_response.inspect}")
         render text: @notification.success_response
       else
+        logger.info("Redirecting")
         redirect_to root_url
       end
     end

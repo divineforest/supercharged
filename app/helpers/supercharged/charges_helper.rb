@@ -1,6 +1,7 @@
 module Supercharged::ChargesHelper
   # No order id while generating form. It will be added later via JS
-  FAKE_ORDER_ID = 0
+  # JS finds order input by this fake id because id and name will be integration specific
+  FAKE_ORDER_ID = "[payment_order_id]"
 
   DEFAULT_AMOUNT_FIELD_OPTIONS = {
     role: "charge-amount",

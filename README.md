@@ -17,6 +17,11 @@ run
     rails db:migrate
     rails g supercharged:views
 
+In your application.js manifest:
+
+```
+//= require supercharged
+```
 
 # Using
 

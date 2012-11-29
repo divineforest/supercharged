@@ -1,0 +1,43 @@
+class ChargeForm
+  constructor: (selector, options = {}) ->
+    @form = $(selector)
+    return if @form.length == 0
+
+    @amount_input = @form.find("[role='charge-amount']")
+    @id_input = @form.find("[value='<%= Supercharged::ChargesHelper::FAKE_ORDER_ID %>']")
+
+    @form.submit =>
+      @start_payment()
+
+      unless parseInt(@id_input.val())
+        alert("Error: undefined charge id")
+        return false
+
+  start_payment: ->
+    @create_internal_transaction(
+      success: (charge) =>
+        @prepare_gateway_form(charge)
+    )
+
+  create_internal_transaction: (options) ->
+    charge_attributes = @get_charge_attributes()
+    $.ajax(
+      url: "/charges.json",
+      type: "POST",
+      async: false,
+      data: { charge: charge_attributes},
+      success: (response, a) ->
+        options.success(response)
+    )
+
+  get_charge_attributes: ->
+    {
+      amount: @amount_input.val()
+    }
+
+  prepare_gateway_form: (charge) ->
+    @id_input.val(charge.id)
+
+$ ->
+  window.widgets ||= {}
+  window.widgets.charge_form = new ChargeForm("[role='gateway-charge-form']")

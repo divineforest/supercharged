@@ -2,6 +2,9 @@ class GatewayNotificationsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
+    logger.info("Notification for #{params[:gateway]}")
+    logger.info("params = #{params.inspect}")
+
     @notification = GatewayInputNotification.create!(params: params, gateway: params[:gateway], raw_post: request.raw_post)
 
     error = if !@notification.complete?
@@ -38,6 +41,12 @@ class GatewayNotificationsController < ApplicationController
 
   def fail
     redirect_to root_url, error: "Fail"
+  end
+
+  private
+
+  def logger
+    Logger.new("log/gateway_notifications.log")
   end
 
 end

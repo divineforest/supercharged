@@ -7,7 +7,7 @@ class GatewayInputNotification < ActiveRecord::Base
 
   before_create :set_charge_id
 
-  attr_accessor :raw_post
+  attr_accessor :raw_post, :logger
 
   def acknowledge
     adapter.acknowledge

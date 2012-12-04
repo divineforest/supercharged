@@ -6,6 +6,7 @@ class GatewayNotificationsController < ApplicationController
     logger.info("params = #{params.inspect}")
 
     @notification = GatewayInputNotification.create!(params: params, gateway: params[:gateway], raw_post: request.raw_post)
+    @notification.logger = logger
 
     error = if !@notification.complete?
       "not_completed"

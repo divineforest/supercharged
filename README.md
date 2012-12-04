@@ -48,6 +48,22 @@ class ChargesController < Payments::ChargesController
 end
 ```
 
+## Model
+
+Create model in app/models/charge.rb and inherit from Supercharged::Charge::Base
+
+```ruby
+class Charge < Supercharged::Charge::Base
+  # your custom code here
+
+  def existing_gem_method
+    # your custom code here
+    super
+    # your custom code here
+  end
+end
+```
+
 # License
 
 Supercharged is released under the MIT License

@@ -25,12 +25,25 @@ class GatewayInputNotification < ActiveRecord::Base
     adapter.respond_to?(:success_response) ? adapter.success_response : "OK"
   end
 
+  def approve
+    logger.info "real amount = #{real_amount}"
+    charge.approve(real_amount) unless charge.ok?
+  end
+
+  def real_amount
+    params[service.mappings[:amount]]
+  end
+
   private
 
   def adapter
     @adapter ||= "ActiveMerchant::Billing::Integrations::#{gateway.classify}::Notification".classify.constantize.new(raw_post)
   rescue NameError
     raise "Unknown integration '#{gateway}'"
+  end
+
+  def service
+    "ActiveMerchant::Billing::Integrations::#{gateway.classify}::Helper".classify.constantize
   end
 
   def set_charge_id

@@ -24,7 +24,7 @@ class GatewayNotificationsController < ApplicationController
       head :bad_request
     else
       logger.info("Success")
-      @notification.charge.approve unless @notification.charge.ok?
+      @notification.approve
       if @notification.need_response?
         logger.info("Need need_response: #{@notification.success_response.inspect}")
         render text: @notification.success_response

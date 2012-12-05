@@ -27,6 +27,7 @@ module Supercharged
 
       # require implicit amount from gateway, not from user
       def approve(real_amount)
+        self.real_amount = real_amount
         set_ok!
       end
 

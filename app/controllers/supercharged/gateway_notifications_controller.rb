@@ -1,11 +1,11 @@
-class GatewayNotificationsController < ApplicationController
+class Supercharged::GatewayNotificationsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
     logger.info("Notification for #{params[:gateway]}")
     logger.info("params = #{params.inspect}")
 
-    @notification = GatewayInputNotification.create!(params: params, gateway: params[:gateway], raw_post: request.raw_post)
+    @notification = GatewayNotification.create!(params: params, gateway: params[:gateway], raw_post: request.raw_post)
     @notification.logger = logger
 
     error = if !@notification.complete?

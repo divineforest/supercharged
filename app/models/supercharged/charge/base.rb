@@ -1,11 +1,19 @@
 module Supercharged
   module Charge
-    class Base < Payment
+    class Base < ActiveRecord::Base
+      self.abstract_class = true
 
+      attr_accessible :amount
+
+      belongs_to :user
       has_many :gateway_input_notifications
 
+      validates :amount, presence: true
+
+      scope :latest, order("created_at DESC")
+
       state_machine :state, initial: :new do
-        store_audit_trail
+        # store_audit_trail
 
         state :new
         state :rejected

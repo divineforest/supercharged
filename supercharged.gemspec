@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", ">= 3.1"
+  s.add_dependency "state_machine"
   s.add_dependency "state_machine-audit_trail"
   s.add_dependency "activemerchant"
 

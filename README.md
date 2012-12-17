@@ -23,16 +23,21 @@ In your application.js manifest:
 //= require supercharged
 ```
 
+Create config/initializers/supercharged.rb
+
+```ruby
+ActiveMerchant::Billing::Base.integration_mode = Rails.env.production? ? :production : :test
+```
+
 # Using
 
 Create view in app/views/supercharged/charges/new.html.haml
 
 ```haml
-= charge_form_for(:paypal, account: "yourpaypalaccountid", html: {}) do |service|
-  - service.description t('.payment_service_invoice_description')
+= charge_form_for(:paypal, account: 'yourpaypalaccountid', html: {}) do |service|
+  - service.description 'Write here description that will be shown in paymennt form'
   = charge_form_amount_field(service)
-  = submit_tag t('.refill')
-
+  = submit_tag 'Pay now'
 ```
 
 # Customization
@@ -43,7 +48,7 @@ Create controller in app/controllers/charges_controller.rb and inherit from Paym
 Then add what you need or change existing methods with 'super'.
 
 ```ruby
-class ChargesController < Payments::ChargesController
+class ChargesController < Supercharged::ChargesController
   before_filter :authenticate_user! # this is Devise's authenticate method
 end
 ```
@@ -56,10 +61,12 @@ Create model in app/models/charge.rb and inherit from Supercharged::Charge::Base
 class Charge < Supercharged::Charge::Base
   # your custom code here
 
-  def existing_gem_method
-    # your custom code here
-    super
-    # your custom code here
+  def approve(real_amount)
+    transaction do
+      # update user balance with your own update_balance method or other things you want to do after charged approved
+      user.update_balance(real_amount)
+      super
+    end
   end
 end
 ```

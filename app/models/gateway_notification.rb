@@ -1,6 +1,6 @@
 require 'active_merchant'
 
-class GatewayInputNotification < ActiveRecord::Base
+class GatewayNotification < ActiveRecord::Base
   belongs_to :charge
 
   serialize :params

@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "state_machine"
   s.add_dependency "state_machine-audit_trail"
   s.add_dependency "activemerchant"
+  s.add_dependency 'strong_parameters'
 
   s.add_development_dependency "sqlite3"
 end

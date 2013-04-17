@@ -8,7 +8,6 @@ Add to Gemfile:
 
 ```ruby
 gem 'supercharged'
-
 ```
 
 run

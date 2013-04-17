@@ -70,6 +70,10 @@ class Charge < Supercharged::Charge::Base
 end
 ```
 
+# Contributing
+
+The example app is at https://github.com/divineforest/supercharged-example-app
+
 # License
 
 Supercharged is released under the MIT License

@@ -1,9 +1,9 @@
 module Supercharged
   module Charge
     class Base < ActiveRecord::Base
-      self.abstract_class = true
+      include ActiveModel::ForbiddenAttributesProtection
 
-      attr_accessible :amount
+      self.abstract_class = true
 
       belongs_to :user
       has_many :gateway_input_notifications

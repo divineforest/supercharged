@@ -20,9 +20,11 @@ Gem::Specification.new do |s|
   s.add_dependency "state_machine"
   s.add_dependency "state_machine-audit_trail"
   s.add_dependency "activemerchant"
-  s.add_dependency 'strong_parameters'
+  s.add_dependency "strong_parameters"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "minitest", "~> 3.0"
   s.add_development_dependency "minitest-spec-context"
+  s.add_development_dependency "minitest-rails"
+  s.add_development_dependency "mocha"
 end

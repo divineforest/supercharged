@@ -2,11 +2,11 @@ class Supercharged::GatewayNotificationsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
-    logger.info("Notification for #{params[:gateway]}")
-    logger.info("params = #{params.inspect}")
+    persistent_logger.info("Notification for #{params[:gateway]}")
+    persistent_logger.info("params = #{params.inspect}")
 
     @notification = GatewayNotification.create!(params: params, gateway: params[:gateway], raw_post: request.raw_post)
-    @notification.logger = logger
+    @notification.logger = persistent_logger
 
     error = if !@notification.complete?
       "not_completed"
@@ -17,20 +17,20 @@ class Supercharged::GatewayNotificationsController < ApplicationController
     end
 
     if error
-      logger.error("Error: #{error.inspect}")
+      persistent_logger.error("Error: #{error.inspect}")
       if @notification.charge
         @notification.charge.failed!
         @notification.charge.update_attribute(:error, error)
       end
       head :bad_request
     else
-      logger.info("Success")
+      persistent_logger.info("Success")
       @notification.approve
       if @notification.need_response?
-        logger.info("Need need_response: #{@notification.success_response.inspect}")
+        persistent_logger.info("Need need_response: #{@notification.success_response.inspect}")
         render text: @notification.success_response
       else
-        logger.info("Redirecting")
+        persistent_logger.info("Redirecting")
         redirect_to root_url
       end
     end
@@ -46,8 +46,8 @@ class Supercharged::GatewayNotificationsController < ApplicationController
 
   private
 
-  def logger
-    Logger.new("log/gateway_notifications.log")
+  def persistent_logger
+    @persistent_logger ||= Logger.new("log/gateway_notifications.log")
   end
 
 end

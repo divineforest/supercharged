@@ -16,10 +16,28 @@ app.config.session_store :cookie_store, :key => "_fakeapp_session"
 app.config.active_support.deprecation = :log
 app.initialize!
 
-#migrations
+Rails.application.routes.draw do
+  supercharged
+
+  root to: "empty#index"
+end
+
+# migrations
 ActiveRecord::Base.silence do
   ActiveRecord::Migration.verbose = false
   ActiveRecord::Schema.define :version => 0 do
+
+    create_table "gateway_notifications", :force => true do |t|
+      t.text     "params"
+      t.string   "status"
+      t.string   "external_transaction_id"
+      t.integer  "charge_id"
+      t.datetime "created_at",              :null => false
+      t.datetime "updated_at",              :null => false
+      t.string   "gateway"
+    end
+
+    add_index "gateway_notifications", ["charge_id"], :name => "index_gateway_input_notifications_on_charge_id"
 
     create_table "charges_state_transitions", :force => true do |t|
       t.integer  "charges_id"
@@ -51,6 +69,24 @@ ActiveRecord::Base.silence do
     add_index "charges", ["state"], :name => "index_charges_on_state"
     add_index "charges", ["user_id"], :name => "index_charges_on_user_id"
 
+  end
+end
+
+class ApplicationController < ActionController::Base
+  protect_from_forgery
+
+  helper_method :current_user
+
+  private
+
+  def current_user
+    raise "stub me"
+  end
+end
+
+class EmptyController < ApplicationController
+  def index
+    render empty: true
   end
 end
 

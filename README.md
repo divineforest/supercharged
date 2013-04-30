@@ -46,7 +46,7 @@ Create view in app/views/supercharged/charges/new.html.haml
 
 ## Controller
 
-Create controller in app/controllers/charges_controller.rb and inherit from Payments::ChargesController.
+Create controller in app/controllers/charges_controller.rb and inherit from Supercharged::ChargesController.
 Then add what you need or change existing methods with 'super'.
 
 ```ruby

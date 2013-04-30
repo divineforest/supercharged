@@ -1,6 +1,8 @@
 require 'active_merchant'
 
 class GatewayNotification < ActiveRecord::Base
+  class EmptyChargeIdError < ArgumentError;end
+
   belongs_to :charge
 
   serialize :params
@@ -47,7 +49,7 @@ class GatewayNotification < ActiveRecord::Base
   end
 
   def set_charge_id
-    self.charge_id = adapter.item_id || raise("Undefined charge_id")
+    self.charge_id = adapter.item_id || raise(EmptyChargeIdError)
   end
 
 end

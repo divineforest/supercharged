@@ -47,7 +47,7 @@ class Supercharged::GatewayNotificationsController < ApplicationController
   private
 
   def persistent_logger
-    @persistent_logger ||= Logger.new("log/gateway_notifications.log")
+    @persistent_logger ||= Logger.new("log/supercharged/gateway_notifications.log")
   end
 
 end

@@ -31,6 +31,14 @@ Create config/initializers/supercharged.rb
 ActiveMerchant::Billing::Base.integration_mode = Rails.env.production? ? :production : :test
 ```
 
+Add
+
+```ruby
+supercharged
+```
+
+to your routes.rb somewhere in draw block.
+
 # Using
 
 Create view in app/views/supercharged/charges/new.html.haml
@@ -53,6 +61,12 @@ Then add what you need or change existing methods with 'super'.
 class ChargesController < Supercharged::ChargesController
   before_filter :authenticate_user! # this is Devise's authenticate method
 end
+```
+
+If you create your own controllers then you need to customize routing method:
+
+```
+supercharged controllers: {charges: :charges, gateway_notifications: :gateway_notifications}
 ```
 
 ## Model

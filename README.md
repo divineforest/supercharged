@@ -1,5 +1,7 @@
 # Supercharged
 
+[![Build Status](https://travis-ci.org/divineforest/supercharged.png?branch=master)](https://travis-ci.org/divineforest/supercharged)
+
 Complete MVC solution to accept charges from users on your Ruby on Rails site
 
 ## Installation

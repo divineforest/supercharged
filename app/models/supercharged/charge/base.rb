@@ -3,6 +3,7 @@ module Supercharged
     class Base < ActiveRecord::Base
       include ActiveModel::ForbiddenAttributesProtection
 
+      self.table_name = "charges"
       self.abstract_class = true
 
       belongs_to :user

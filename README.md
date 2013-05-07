@@ -1,7 +1,7 @@
 # Supercharged
 
 [![Build Status](https://travis-ci.org/divineforest/supercharged.png?branch=master)](https://travis-ci.org/divineforest/supercharged)
-[![CodeClimate](https://codeclimate.com/github/divineforest/supercharged.png)](https://codeclimate.com/github/divineforest/supercharged)
+[![Code Climate](https://codeclimate.com/github/divineforest/supercharged.png)](https://codeclimate.com/github/divineforest/supercharged)
 
 Complete MVC solution to accept charges from users on your Ruby on Rails site
 

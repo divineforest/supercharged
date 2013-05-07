@@ -2,11 +2,7 @@ require 'active_record'
 require 'action_controller/railtie'
 
 # database
-if ENV['TRAVIS'].present?
-  ActiveRecord::Base.configurations = {'test' => {:adapter => 'postgresql', :database => 'supercharged_test', :username => "postgres"}}
-else
-  ActiveRecord::Base.configurations = {'test' => {:adapter => 'sqlite3', :database => ':memory:'}}
-end
+ActiveRecord::Base.configurations = {'test' => {adapter: 'sqlite3', database: ':memory:'}}
 ActiveRecord::Base.establish_connection('test')
 
 # config

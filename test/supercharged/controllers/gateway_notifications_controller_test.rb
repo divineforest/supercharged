@@ -17,7 +17,7 @@ describe Supercharged::GatewayNotificationsController do
 
           GatewayNotification.any_instance.stubs(:adapter).returns(adapter)
 
-          post :create, gateway: "webmoney"
+          post :create, gateway: "webmoney", amount: 100
 
           charge.reload
           charge.state_name.must_equal :ok
@@ -33,7 +33,7 @@ describe Supercharged::GatewayNotificationsController do
 
           GatewayNotification.any_instance.stubs(:adapter).returns(adapter)
 
-          post :create, gateway: "webmoney"
+          post :create, gateway: "webmoney", amount: 100
 
           charge.reload
           charge.state_name.must_equal :error
@@ -47,7 +47,7 @@ describe Supercharged::GatewayNotificationsController do
 
           GatewayNotification.any_instance.stubs(:adapter).returns(adapter)
 
-          post :create, gateway: "webmoney"
+          post :create, gateway: "webmoney", amount: 100
 
           charge.reload
           charge.state_name.must_equal :error
@@ -56,6 +56,15 @@ describe Supercharged::GatewayNotificationsController do
           assert_response :bad_request
         end
 
+      end
+    end
+
+    context "without any payload params" do
+      it "returns bad_request" do
+        # head :bad_request
+        post :create, gateway: "paypal"
+
+        assert_response :bad_request
       end
     end
   end

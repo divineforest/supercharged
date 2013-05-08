@@ -1,5 +1,6 @@
 class Supercharged::GatewayNotificationsController < ApplicationController
   skip_before_filter :verify_authenticity_token
+  before_filter :check_any_params, only: :create
 
   def create
     persistent_logger.info("Notification for #{params[:gateway]}")
@@ -48,6 +49,13 @@ class Supercharged::GatewayNotificationsController < ApplicationController
 
   def persistent_logger
     @persistent_logger ||= Logger.new("log/supercharged/gateway_notifications.log")
+  end
+
+  def check_any_params
+    if request.raw_post.blank?
+      head :bad_request
+      false
+    end
   end
 
 end

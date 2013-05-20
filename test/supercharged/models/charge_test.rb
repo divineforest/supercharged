@@ -13,6 +13,12 @@ describe Charge do
   describe "states" do
     subject { Charge.create!({user_id: 1, amount: 10}, without_protection: true) }
 
+    describe "initial state" do
+      it "initial state is new" do
+        Charge.new.state_name.must_equal :new
+      end
+    end
+
     describe "#approve" do
       it "changes state and real_amount" do
         subject.approve(5)

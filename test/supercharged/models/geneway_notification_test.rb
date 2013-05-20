@@ -7,5 +7,15 @@ describe GatewayNotification do
         GatewayNotification.create!(gateway: "webmoney")
       }.must_raise GatewayNotification::EmptyChargeIdError
     end
+
+    it "charge id is inherited from adapter" do
+      gateway_notification = GatewayNotification.new
+
+      adapter = stub(item_id: 42)
+      gateway_notification.stubs(:adapter).returns(adapter)
+
+      gateway_notification.save!
+      gateway_notification.charge_id.must_equal 42
+    end
   end
 end

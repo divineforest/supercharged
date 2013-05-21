@@ -54,7 +54,6 @@ ActiveRecord::Base.silence do
       t.string   "state",                   :default => "new", :null => false
       t.datetime "created_at",                                 :null => false
       t.datetime "updated_at",                                 :null => false
-      t.integer  "user_transaction_id"
       t.string   "error"
       t.integer  "approved_by"
       t.text     "reject_reason"

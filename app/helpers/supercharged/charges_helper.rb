@@ -27,9 +27,9 @@ module Supercharged::ChargesHelper
   end
 
   def charge_form_amount_field(service, options = {})
-    amount_field_name = service.mappings[:amount] || raise("Undefined amount field mapping")
+    amount_field_name = service.mappings[:amount] || raise(ArgumentError, "Undefined amount field mapping")
 
-    options = options.merge(DEFAULT_AMOUNT_FIELD_OPTIONS)
+    options = DEFAULT_AMOUNT_FIELD_OPTIONS.merge(options)
 
     number_field_tag amount_field_name, nil, options
   end

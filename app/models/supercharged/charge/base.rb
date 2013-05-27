@@ -9,7 +9,11 @@ module Supercharged
       belongs_to :user
       has_many :gateway_input_notifications
 
-      validates :amount, presence: true
+      validates :amount, presence: true, numericality: {
+        greater_than_or_equal_to: ->(model) {
+          model.class.min_amount
+        }
+      }
 
       scope :latest, order("created_at DESC")
 
@@ -40,6 +44,9 @@ module Supercharged
         set_ok!
       end
 
+      def self.min_amount
+        1
+      end
     end
   end
 end

@@ -1,5 +1,5 @@
-class SuperchargedForm
-  constructor: (selector, options = {}) ->
+class @SuperchargedForm
+  constructor: (selector, @options = {}) ->
     @form = $(selector)
     return if @form.length == 0
 
@@ -7,17 +7,28 @@ class SuperchargedForm
     @id_input = @form.find("[value='<%= Supercharged::ChargesHelper::FAKE_ORDER_ID %>']")
 
     @form.submit =>
-      @startPayment()
+      valid = @startPayment()
+
+      unless valid
+        return false
 
       unless parseInt(@id_input.val())
         alert("Error: undefined charge id")
         return false
 
   startPayment: ->
+    valid = true
     @createInternalTransaction(
-      success: (charge) =>
+      success: (charge)=>
         @prepareGatewayForm(charge)
+      validationError: (errors)=>
+        valid = false
+
+        handler = @options.onValidationError
+        handler.call(this, errors) if handler?
     )
+
+    valid
 
   createInternalTransaction: (options) ->
     charge_attributes = @getChargeAttributes()
@@ -28,6 +39,11 @@ class SuperchargedForm
       data: {charge: charge_attributes},
       success: (response) ->
         options.success(response)
+      error: (jqXHR, status, errorThrown)=>
+        return unless jqXHR.status == 422
+
+        response = $.parseJSON(jqXHR.responseText)
+        options.validationError(response.errors)
     )
 
   getChargeAttributes: ->
@@ -37,6 +53,3 @@ class SuperchargedForm
 
   prepareGatewayForm: (charge) ->
     @id_input.val(charge.id)
-
-$ ->
-  new SuperchargedForm("[role='gateway-charge-form']")

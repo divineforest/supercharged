@@ -8,6 +8,16 @@ describe Charge do
 
       subject.errors[:amount][0].must_equal "can't be blank"
     end
+
+    it "min amount is required" do
+      subject.amount = 0
+      subject.valid?
+
+      subject.errors[:amount][0].must_equal "must be greater than or equal to 1"
+
+      subject.amount = 100
+      subject.valid?.must_equal true
+    end
   end
 
   describe "states" do

@@ -44,6 +44,11 @@ ActiveRecord::Base.silence do
       t.datetime "created_at"
     end
 
+    create_table "users", :force => true do |t|
+      t.datetime "created_at",              :null => false
+      t.datetime "updated_at",              :null => false
+    end
+
     add_index "charges_state_transitions", ["charges_id"], :name => "index_charges_state_transitions_on_charges_id"
 
     create_table "charges", :force => true do |t|
@@ -87,3 +92,6 @@ end
 
 # helpers
 Object.const_set(:ApplicationHelper, Module.new)
+
+class User < ActiveRecord::Base
+end

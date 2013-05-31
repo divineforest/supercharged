@@ -4,10 +4,14 @@ class Supercharged::ChargesController < ApplicationController
   end
 
   def create
-    @charge = Charge.new(charge_params)
-    @charge.user = current_user
-    @charge.save!
-    render json: @charge.as_json(only: [:id])
+    charge = Charge.new(charge_params)
+    charge.user = current_user
+
+    if charge.save
+      render json: charge.as_json(only: [:id])
+    else
+      render json: { errors: charge.errors }, status: :unprocessable_entity
+    end
   end
 
   private

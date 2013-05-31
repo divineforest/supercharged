@@ -25,6 +25,13 @@ In your application.js manifest:
 //= require supercharged
 ```
 
+And then in some assets file:
+
+```
+$ ->
+  new SuperchargedForm("[role='gateway-charge-form']")
+```
+
 Create config/initializers/supercharged.rb
 
 ```ruby
@@ -84,7 +91,25 @@ class Charge < Supercharged::Charge::Base
       super
     end
   end
+
+  def min_amount
+    # specify min value for amount field here
+    # default is 1
+    42
+  end
 end
+```
+
+## Form
+
+To display validation, supercharged form class has `onValidationError` callback:
+
+```
+$ ->
+  new SuperchargedForm("[role='gateway-charge-form']", {
+    onValidationError: (errors)->
+      console.log "supercharged validation errors: ", errors
+  })
 ```
 
 # Contributing

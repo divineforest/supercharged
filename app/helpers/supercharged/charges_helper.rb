@@ -3,12 +3,6 @@ module Supercharged::ChargesHelper
   # JS finds order input by this fake id because id and name will be integration specific
   FAKE_ORDER_ID = "[payment_order_id]"
 
-  DEFAULT_AMOUNT_FIELD_OPTIONS = {
-    role: "charge-amount",
-    required: true,
-    min: 0
-  }
-
   def charge_form_for(service_name, options = {}, &block)
     raise ArgumentError, "Missing block" unless block_given?
 
@@ -29,7 +23,7 @@ module Supercharged::ChargesHelper
   def charge_form_amount_field(service, options = {})
     amount_field_name = service.mappings[:amount] || raise(ArgumentError, "Undefined amount field mapping")
 
-    options = DEFAULT_AMOUNT_FIELD_OPTIONS.merge(options)
+    options = default_amount_field_options.merge(options)
 
     number_field_tag amount_field_name, nil, options
   end
@@ -40,6 +34,16 @@ module Supercharged::ChargesHelper
     options[:html] ||= {}
     options[:html].merge!(role: "gateway-charge-form")
     options
+  end
+
+  def default_amount_field_options
+    {
+      role: "charge-amount",
+      required: true,
+      data: {
+        min_value: Charge.min_amount
+      }
+    }
   end
 
 end

@@ -9,7 +9,6 @@ require "mocha/setup"
 require 'rails'
 require 'active_record'
 require 'action_view'
-# require 'action_controller'
 
 require "rails/test_help"
 require "minitest/rails"

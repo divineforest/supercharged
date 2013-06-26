@@ -8,7 +8,12 @@ module ActionDispatch::Routing
       }
       controllers.merge!(options[:controllers]) if options[:controllers]
 
-      resources :charges, only: [:new, :create], controller: controllers[:charges]
+      resources :charges, only: [:new, :create], controller: controllers[:charges] do
+        collection do
+          post :setup_purchase
+          get :complete
+        end
+      end
 
       match "gateways/:gateway/result" => "#{controllers[:gateway_notifications]}#create", as: :gateways_result
     end

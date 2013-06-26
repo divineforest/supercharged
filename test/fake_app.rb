@@ -35,6 +35,20 @@ ActiveRecord::Base.silence do
 
     add_index "gateway_notifications", ["charge_id"], :name => "index_gateway_input_notifications_on_charge_id"
 
+    create_table "gateway_responses", :force => true do |t|
+      t.integer  "charge_id",     :null => false
+      t.string   "action",        :null => false
+      t.decimal  "amount"
+      t.boolean  "success",       :null => false
+      t.string   "authorization"
+      t.string   "message"
+      t.text     "params"
+      t.datetime "created_at",    :null => false
+      t.datetime "updated_at",    :null => false
+    end
+
+    add_index "gateway_responses", ["charge_id"], :name => "index_gateway_responses_on_charge_id"
+
     create_table "charges_state_transitions", :force => true do |t|
       t.integer  "charges_id"
       t.string   "charges_type"
@@ -63,9 +77,15 @@ ActiveRecord::Base.silence do
       t.integer  "approved_by"
       t.text     "reject_reason"
       t.decimal  "real_amount"
+      t.string   "gateway_name"
+      t.string   "gateway_token"
+      t.string   "gateway_payer_id"
+      t.string   "ip_address"
     end
 
     add_index "charges", ["approved_by"], :name => "index_charges_on_approved_by"
+    add_index "charges", ["gateway_name"], :name => "index_charges_on_gateway_name"
+    add_index "charges", ["gateway_token"], :name => "index_charges_on_gateway_token"
     add_index "charges", ["state"], :name => "index_charges_on_state"
     add_index "charges", ["user_id"], :name => "index_charges_on_user_id"
 

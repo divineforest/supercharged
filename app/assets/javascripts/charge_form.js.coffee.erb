@@ -4,7 +4,8 @@ class @SuperchargedForm
     return if @form.length == 0
 
     @amount_input = @form.find("[role='charge-amount']")
-    @id_input = @form.find("[value='<%= Supercharged::ChargesHelper::FAKE_ORDER_ID %>']")
+    @gateway_name_input = @form.find("[role='charge-gateway-name']")
+    @id_input = if @form.find("[role='charge-id']").length then @form.find("[role='charge-id']") else @form.find("[value='<%= Supercharged::ChargesHelper::FAKE_ORDER_ID %>']")
 
     @form.submit =>
       valid = @startPayment()
@@ -48,7 +49,8 @@ class @SuperchargedForm
 
   getChargeAttributes: ->
     {
-      amount: @amount_input.val()
+      amount: @amount_input.val(),
+      gateway_name: @gateway_name_input.val()
     }
 
   prepareGatewayForm: (charge) ->

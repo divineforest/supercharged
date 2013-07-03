@@ -19,10 +19,14 @@ class Supercharged::GatewayNotificationsController < ApplicationController
 
     if error
       persistent_logger.error("Error: #{error.inspect}")
-      if @notification.charge
+
+      charge = @notification.charge
+
+      if charge && !charge.error?
         @notification.charge.failed!
         @notification.charge.update_attribute(:error, error)
       end
+
       head :bad_request
     else
       persistent_logger.info("Success")

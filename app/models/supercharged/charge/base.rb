@@ -28,15 +28,19 @@ module Supercharged
         state :error
 
         event :set_ok do
-          transition [:new, :error] => :ok
+          transition [:new, :error, :pending] => :ok
         end
 
         event :failed do
-          transition [:new] => :error
+          transition [:new, :pending] => :error
         end
 
         event :reject do
-          transition [:new, :error] => :rejected
+          transition [:new, :error, :pending] => :rejected
+        end
+
+        event :set_pending do
+          transition [:new, :error] => :pending
         end
       end
 

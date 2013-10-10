@@ -1,0 +1,8 @@
+en:
+  supercharged:
+    gateway_controller:
+      error:
+        failed: "Charge not completed"
+        not_completed: "not completed on the gateway"
+        acknowledge_failed: "acknowledge failed"
+        charge_not_found: "charge not found"

@@ -14,7 +14,7 @@ class Supercharged::GatewayNotificationsController < ApplicationController
     elsif !@notification.acknowledge
       "acknowledge_failed"
     elsif !@notification.charge
-      "charge not found"
+      "charge_not_found"
     end
 
     if error
@@ -27,7 +27,7 @@ class Supercharged::GatewayNotificationsController < ApplicationController
         @notification.charge.update_attribute(:error, error)
       end
 
-      head :bad_request
+      redirect_to new_charge_url, alert: "#{I18n.t("supercharged.gateway_controller.error.failed")}: #{I18n.t("supercharged.gateway_controller.error.#{error}")}"
     else
       persistent_logger.info("Success")
       @notification.approve

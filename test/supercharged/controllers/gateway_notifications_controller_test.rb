@@ -38,7 +38,7 @@ describe Supercharged::GatewayNotificationsController do
           charge.state_name.must_equal :error
           charge.error.must_equal "not_completed"
 
-          assert_response :bad_request
+          assert_response :found
         end
 
         it "acknowledge = false" do
@@ -52,7 +52,7 @@ describe Supercharged::GatewayNotificationsController do
           charge.state_name.must_equal :error
           charge.error.must_equal "acknowledge_failed"
 
-          assert_response :bad_request
+          assert_response :found
         end
       end
     end

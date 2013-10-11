@@ -1,0 +1,8 @@
+th:
+  supercharged:
+    gateway_controller:
+      error:
+        failed: "ไม่สามารถเรียกเก็บเงินได้"
+        not_completed: "ไม่สามารถเรียกเก็บเงินจาก gateway"
+        acknowledge_failed: "การตอบรับล้มเหลว"
+        charge_not_found: "ไม่พบการเรียกเก็บเงิน"

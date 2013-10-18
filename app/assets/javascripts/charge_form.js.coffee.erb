@@ -5,7 +5,7 @@ class @SuperchargedForm
 
     @amount_input = @form.find("[role='charge-amount']")
     @gateway_name_input = @form.find("[role='charge-gateway-name']")
-    @id_input = if @form.find("[role='charge-id']").length then @form.find("[role='charge-id']") else @form.find("[value='<%= Supercharged::ChargesHelper::FAKE_ORDER_ID %>']")
+    @id_input = @form.find("[role='payment-form-order']")
 
     @form.submit =>
       valid = @startPayment()

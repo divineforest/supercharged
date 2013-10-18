@@ -1,6 +1,5 @@
 module Supercharged::ChargesHelper
   # No order id while generating form. It will be added later via JS
-  # JS finds order input by this fake id because id and name will be integration specific
   FAKE_ORDER_ID = "[payment_order_id]"
 
   def charge_form_for(service_name, options = {}, &block)

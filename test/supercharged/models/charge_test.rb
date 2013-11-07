@@ -21,7 +21,7 @@ describe Charge do
   end
 
   describe "states" do
-    subject { Charge.create!({user_id: 1, amount: 10}, without_protection: true) }
+    subject { Charge.create!(user_id: 1, amount: 10) }
 
     describe "initial state" do
       it "initial state is new" do

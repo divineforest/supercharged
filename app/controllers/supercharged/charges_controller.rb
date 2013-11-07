@@ -8,7 +8,7 @@ class Supercharged::ChargesController < ApplicationController
     charge.user = current_user
 
     if charge.save
-      render json: charge.as_json(only: [:id])
+      render json: { charge: charge.as_json(only: [:id]) }
     else
       render json: { errors: charge.errors }, status: :unprocessable_entity
     end

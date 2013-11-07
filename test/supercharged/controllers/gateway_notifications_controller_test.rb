@@ -2,16 +2,16 @@ require 'test_helper'
 
 describe Supercharged::GatewayNotificationsController do
   describe "create" do
-    let(:charge) { Charge.create!({user_id: 1, amount: 10}, without_protection: true) }
+    let(:charge) { Charge.create!(user_id: 1, amount: 10) }
 
-    context "authorized" do
+    describe "authorized" do
       let(:fake_user) { stub(id: 1) }
 
       before do
         GatewayNotification.any_instance.stubs(:current_user).returns(fake_user)
       end
 
-      context "correct conditions" do
+      describe "correct conditions" do
         it "works with good notification" do
           adapter = stub(item_id: 1, "complete?" => true, acknowledge: true, charge: charge)
 
@@ -26,7 +26,7 @@ describe Supercharged::GatewayNotificationsController do
         end
       end
 
-      context "bad conditions" do
+      describe "bad conditions" do
         it "completed = false" do
           adapter = stub(item_id: 1, "complete?" => false, acknowledge: true, charge: charge)
 
@@ -57,7 +57,7 @@ describe Supercharged::GatewayNotificationsController do
       end
     end
 
-    context "without any payload params" do
+    describe "without any payload params" do
       it "returns bad_request" do
         post :create, gateway: "paypal"
 

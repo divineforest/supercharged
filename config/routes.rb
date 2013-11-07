@@ -15,7 +15,7 @@ module ActionDispatch::Routing
         end
       end
 
-      match "gateways/:gateway/result" => "#{controllers[:gateway_notifications]}#create", as: :gateways_result
+      post "gateways/:gateway/result" => "#{controllers[:gateway_notifications]}#create", as: :gateways_result
     end
 
   end

@@ -1,8 +1,6 @@
 module Supercharged
   module Charge
     class Base < ActiveRecord::Base
-      include ActiveModel::ForbiddenAttributesProtection
-
       self.table_name = "charges"
       self.abstract_class = true
 

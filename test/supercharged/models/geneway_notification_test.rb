@@ -4,7 +4,8 @@ describe GatewayNotification do
   describe "create" do
     it "raise EmptyChargeId if charge_id = nil" do
       ->{
-        GatewayNotification.create!(gateway: "webmoney")
+        notification = GatewayNotification.create!(gateway: "webmoney")
+        notification.approve
       }.must_raise GatewayNotification::EmptyChargeIdError
     end
 

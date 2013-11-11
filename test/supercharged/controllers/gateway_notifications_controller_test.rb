@@ -13,7 +13,7 @@ describe Supercharged::GatewayNotificationsController do
 
       context "correct conditions" do
         it "works with good notification" do
-          adapter = stub(item_id: 1, "complete?" => true, acknowledge: true, charge: charge)
+          adapter = stub(item_id: 1, "complete?" => true, acknowledge: true, charge: charge, gross: 100)
 
           GatewayNotification.any_instance.stubs(:adapter).returns(adapter)
 

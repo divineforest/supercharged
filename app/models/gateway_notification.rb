@@ -12,7 +12,13 @@ class GatewayNotification < ActiveRecord::Base
   attr_accessor :raw_post, :logger
 
   def acknowledge
-    adapter.acknowledge
+    res = adapter.acknowledge
+
+    if charge_id.nil? && adapter.item_id
+      update_column(:charge_id, adapter.item_id)
+    end
+
+    res
   end
 
   def complete?
@@ -28,12 +34,14 @@ class GatewayNotification < ActiveRecord::Base
   end
 
   def approve
+    raise EmptyChargeIdError unless charge_id
+
     logger.info "real amount = #{real_amount}"
     charge.approve(real_amount) unless charge.ok?
   end
 
   def real_amount
-    params[service.mappings[:amount]]
+    adapter.gross
   end
 
   private
@@ -44,12 +52,9 @@ class GatewayNotification < ActiveRecord::Base
     raise "Unknown integration '#{gateway}'"
   end
 
-  def service
-    "ActiveMerchant::Billing::Integrations::#{gateway.classify}::Helper".classify.constantize
-  end
-
   def set_charge_id
-    self.charge_id = adapter.item_id || raise(EmptyChargeIdError)
+    self.charge_id ||= adapter.item_id
+    true
   end
 
 end

@@ -9,10 +9,10 @@ class Supercharged::GatewayNotificationsController < ApplicationController
     @notification = GatewayNotification.create!(params: params, gateway: params[:gateway], raw_post: request.raw_post)
     @notification.logger = persistent_logger
 
-    error = if !@notification.complete?
-      "not_completed"
-    elsif !@notification.acknowledge
+    error = if !@notification.acknowledge
       "acknowledge_failed"
+    elsif !@notification.complete?
+      "not_completed"
     elsif !@notification.charge
       "charge_not_found"
     end

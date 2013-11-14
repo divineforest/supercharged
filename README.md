@@ -36,6 +36,7 @@ Create config/initializers/supercharged.rb
 
 ```ruby
 ActiveMerchant::Billing::Base.integration_mode = Rails.env.production? ? :production : :test
+ActiveMerchant::Billing::Base.mode = Rails.env.production? ? :production : :test
 ```
 
 Add

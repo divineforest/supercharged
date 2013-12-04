@@ -11,9 +11,7 @@ module Supercharged
       has_many :gateway_responses
 
       validates :amount, presence: true, numericality: {
-        greater_than_or_equal_to: ->(model) {
-          model.class.min_amount
-        }
+        greater_than_or_equal_to: :min_amount
       }
 
       scope :latest, order("created_at DESC")
@@ -54,7 +52,7 @@ module Supercharged
         set_ok!
       end
 
-      def self.min_amount
+      def min_amount
         1
       end
 

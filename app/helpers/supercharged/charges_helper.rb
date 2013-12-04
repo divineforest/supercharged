@@ -40,9 +40,7 @@ module Supercharged::ChargesHelper
     {
       role: "charge-amount",
       required: true,
-      data: {
-        min_value: Charge.min_amount
-      }
+      min: Charge.new(user: current_user).min_amount
     }
   end
 

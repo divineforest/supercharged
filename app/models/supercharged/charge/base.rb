@@ -14,7 +14,7 @@ module Supercharged
         }
       }
 
-      scope :latest, order("created_at DESC")
+      scope :latest, ->{ order("created_at DESC") }
       scope :by_gateway, ->(gateway_name) { where(gateway_name: gateway_name.to_s) }
 
       state_machine :state, initial: :new do

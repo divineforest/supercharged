@@ -31,7 +31,7 @@ module Supercharged
             transition [:new, :error, :pending] => :ok
           end
 
-          event :failed do
+          event :set_failed do
             transition [:new, :pending] => :error
           end
 
@@ -90,6 +90,15 @@ module Supercharged
 
       def gateway
         Supercharged::Helpers.gateway(gateway_name)
+      end
+
+      def min_amount
+        1
+      end
+
+      def fail
+        self.state_event = "set_failed"
+        save(validate: false)
       end
 
       private

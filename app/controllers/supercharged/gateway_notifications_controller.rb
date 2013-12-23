@@ -23,7 +23,7 @@ class Supercharged::GatewayNotificationsController < ApplicationController
       charge = @notification.charge
 
       if charge && !charge.error?
-        @notification.charge.failed!
+        @notification.charge.fail
         @notification.charge.update_attribute(:error, error)
       end
 

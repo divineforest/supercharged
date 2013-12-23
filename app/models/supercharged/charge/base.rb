@@ -29,7 +29,7 @@ module Supercharged
           transition [:new, :error, :pending] => :ok
         end
 
-        event :failed do
+        event :set_failed do
           transition [:new, :pending] => :error
         end
 
@@ -50,6 +50,11 @@ module Supercharged
       def approve(real_amount)
         self.real_amount = real_amount
         set_ok!
+      end
+
+      def fail
+        self.state_event = "set_failed"
+        save(validate: false)
       end
 
       def min_amount

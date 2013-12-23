@@ -1,59 +1,64 @@
 module Supercharged
   module Charge
-    class Base < ActiveRecord::Base
-      self.table_name = "charges"
-      self.abstract_class = true
+    module Base
+      extend ActiveSupport::Concern
 
-      belongs_to :user
-      has_many :gateway_input_notifications
-      has_many :gateway_responses
+      included do
+        self.table_name = "charges"
 
-      validates :amount, presence: true, numericality: {
-        greater_than_or_equal_to: ->(model) {
-          model.class.min_amount
+        belongs_to :user
+        has_many :gateway_input_notifications
+        has_many :gateway_responses
+
+        validates :amount, presence: true, numericality: {
+          greater_than_or_equal_to: ->(model) {
+            model.class.min_amount
+          }
         }
-      }
 
-      scope :latest, ->{ order("created_at DESC") }
-      scope :by_gateway, ->(gateway_name) { where(gateway_name: gateway_name.to_s) }
+        scope :latest, ->{ order("created_at DESC") }
+        scope :by_gateway, ->(gateway_name) { where(gateway_name: gateway_name.to_s) }
 
-      state_machine :state, initial: :new do
-        # store_audit_trail
+        state_machine :state, initial: :new do
+          # store_audit_trail
 
-        state :new
-        state :rejected
-        state :ok
-        state :error
+          state :new
+          state :rejected
+          state :ok
+          state :error
 
-        event :set_ok do
-          transition [:new, :error, :pending] => :ok
-        end
+          event :set_ok do
+            transition [:new, :error, :pending] => :ok
+          end
 
-        event :failed do
-          transition [:new, :pending] => :error
-        end
+          event :failed do
+            transition [:new, :pending] => :error
+          end
 
-        event :reject do
-          transition [:new, :error, :pending] => :rejected
-        end
+          event :reject do
+            transition [:new, :error, :pending] => :rejected
+          end
 
-        event :set_pending do
-          transition [:new, :error] => :pending
+          event :set_pending do
+            transition [:new, :error] => :pending
+          end
         end
       end
 
-      def self.with_token(token)
-        where(gateway_token: token).first
+      module ClassMethods
+        def with_token(token)
+          where(gateway_token: token).first
+        end
+
+        def min_amount
+          1
+        end
       end
 
       # require implicit amount from gateway, not from user
       def approve(real_amount)
         self.real_amount = real_amount
         set_ok!
-      end
-
-      def self.min_amount
-        1
       end
 
       def setup_purchase(options)

@@ -20,8 +20,8 @@ class @SuperchargedForm
   startPayment: ->
     valid = true
     @createInternalTransaction(
-      success: (response)=>
-        @prepareGatewayForm(response.charge)
+      success: (charge)=>
+        @prepareGatewayForm(charge)
       validationError: (errors)=>
         valid = false
 

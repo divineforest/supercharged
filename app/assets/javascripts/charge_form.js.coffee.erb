@@ -39,7 +39,7 @@ class @SuperchargedForm
       async: false,
       data: {charge: charge_attributes},
       success: (response) ->
-        options.success(response)
+        options.success(response.charge)
       error: (jqXHR, status, errorThrown)=>
         return unless jqXHR.status == 422
 

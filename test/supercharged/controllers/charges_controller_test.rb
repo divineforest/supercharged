@@ -2,14 +2,14 @@ require 'test_helper'
 
 describe Supercharged::ChargesController do
   describe "create action" do
-    context "authorized" do
+    describe "authorized" do
       let(:fake_user) { User.create! }
 
       before do
         Supercharged::ChargesController.any_instance.stubs(:current_user).returns(fake_user)
       end
 
-      context "correct conditions" do
+      describe "correct conditions" do
         it "response contains id in json" do
           post :create, charge: { amount: 100 }
 
@@ -20,7 +20,7 @@ describe Supercharged::ChargesController do
         end
       end
 
-      context "bad conditions" do
+      describe "bad conditions" do
         it "response contains errors in json" do
           post :create, charge: { amount: 0 }
 

@@ -17,6 +17,8 @@ class @SuperchargedForm
         alert("Error: undefined charge id")
         return false
 
+    $("@charge-submit-button").prop("disabled", false)
+
   startPayment: ->
     valid = true
     @createInternalTransaction(

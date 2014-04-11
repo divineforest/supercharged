@@ -47,7 +47,7 @@ class GatewayNotification < ActiveRecord::Base
   private
 
   def adapter
-    @adapter ||= "ActiveMerchant::Billing::Integrations::#{gateway.classify}::Notification".classify.constantize.new(raw_post)
+    @adapter ||= "ActiveMerchant::Billing::Integrations::#{gateway.classify}::Notification".classify.constantize.new(raw_post, Supercharged::Helpers.integrations_options(gateway))
   rescue NameError
     raise "Unknown integration '#{gateway}'"
   end

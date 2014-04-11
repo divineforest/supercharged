@@ -14,7 +14,7 @@ module Supercharged
 
     private
 
-  	def self.gateway_class_by_name(name)
+    def self.gateway_class_by_name(name)
       "ActiveMerchant::Billing::#{name.to_s.camelcase}Gateway".classify.constantize
     rescue NameError
       raise "Unknown gateway '#{name}'"

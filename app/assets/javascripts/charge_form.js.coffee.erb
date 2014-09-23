@@ -3,9 +3,9 @@ class @SuperchargedForm
     @form = $(selector)
     return if @form.length == 0
 
-    @amount_input = @form.find("[role='charge-amount']")
-    @gateway_name_input = @form.find("[role='charge-gateway-name']")
-    @id_input = @form.find("[role='payment-form-order']")
+    @amount_input = @form.find(".js-charge-amount")
+    @gateway_name_input = @form.find(".js-charge-gateway-name")
+    @id_input = @form.find(".js-payment-form-order")
 
     @form.submit =>
       valid = @startPayment()
@@ -17,7 +17,7 @@ class @SuperchargedForm
         alert("Error: undefined charge id")
         return false
 
-    $("@charge-submit-button").prop("disabled", false)
+    $(".js-charge-submit-button").prop("disabled", false)
 
   startPayment: ->
     valid = true

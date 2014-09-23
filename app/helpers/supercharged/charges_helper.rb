@@ -32,13 +32,13 @@ module Supercharged::ChargesHelper
 
   def with_default_html_options(options)
     options[:html] ||= {}
-    options[:html].merge!(role: "gateway-charge-form")
+    options[:html].merge!(class: "js-gateway-charge-form")
     options
   end
 
   def default_amount_field_options
     {
-      role: "charge-amount",
+      class: "js-charge-amount",
       required: true,
       min: Charge.new(user: current_user).min_amount
     }

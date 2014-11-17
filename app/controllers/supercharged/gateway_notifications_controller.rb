@@ -27,12 +27,18 @@ class Supercharged::GatewayNotificationsController < ApplicationController
         @notification.charge.update_attribute(:error, error)
       end
 
-      redirect_to new_charge_url, alert: "#{I18n.t("supercharged.gateway_controller.error.failed")}: #{I18n.t("supercharged.gateway_controller.error.#{error}")}"
+      if @notification.need_error_response?
+        persistent_logger.info("Need error response: #{@notification.error_response.inspect}")
+        render text: @notification.error_response
+      else
+        persistent_logger.info("Redirecting")
+        redirect_to new_charge_url, alert: "#{I18n.t("supercharged.gateway_controller.error.failed")}: #{I18n.t("supercharged.gateway_controller.error.#{error}")}"
+      end
     else
       persistent_logger.info("Success")
       @notification.approve
-      if @notification.need_response?
-        persistent_logger.info("Need need_response: #{@notification.success_response.inspect}")
+      if @notification.need_success_response?
+        persistent_logger.info("Need success response: #{@notification.success_response.inspect}")
         render text: @notification.success_response
       else
         persistent_logger.info("Redirecting")

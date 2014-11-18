@@ -25,12 +25,20 @@ class GatewayNotification < ActiveRecord::Base
     adapter.complete?
   end
 
-  def need_response?
+  def need_success_response?
     adapter.respond_to?(:success_response)
+  end
+
+  def need_error_response?
+    adapter.respond_to?(:error_response)
   end
 
   def success_response
     adapter.respond_to?(:success_response) ? adapter.success_response : "OK"
+  end
+
+  def error_response
+    adapter.respond_to?(:error_response) ? adapter.error_response : "ERROR"
   end
 
   def approve

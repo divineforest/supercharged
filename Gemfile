@@ -13,4 +13,4 @@ gem "jquery-rails"
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-gem "sqlite3"
+gem 'activemerchant', github: 'divineforest/active_merchant'

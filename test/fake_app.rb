@@ -1,9 +1,21 @@
 require 'active_record'
 require 'action_controller/railtie'
 
+# Rails 4.1.x and StateMachine don't play nice
+# https://github.com/pluginaweek/state_machine/issues/295
+require 'state_machine/version'
+
+unless StateMachine::VERSION == '1.2.0'
+  Rails.logger.warn "Please remove me, StateMachine version has changed"
+end
+
+module StateMachine::Integrations::ActiveModel
+  public :around_validation
+end
+
 # database
 ActiveRecord::Base.configurations = {'test' => {adapter: 'sqlite3', database: ':memory:'}}
-ActiveRecord::Base.establish_connection('test')
+ActiveRecord::Base.establish_connection(:test)
 
 # config
 app = Class.new(Rails::Application)
@@ -20,7 +32,7 @@ Rails.application.routes.draw do
 end
 
 # migrations
-ActiveRecord::Base.silence do
+ActiveRecord::Base.silence(:stdout) do
   ActiveRecord::Migration.verbose = false
   ActiveRecord::Schema.define :version => 0 do
 

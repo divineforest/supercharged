@@ -29,7 +29,7 @@ And then in some assets file:
 
 ```
 $ ->
-  new SuperchargedForm("[role='gateway-charge-form']")
+  new SuperchargedForm(".js-gateway-charge-form")
 ```
 
 Create config/initializers/supercharged.rb
@@ -108,7 +108,7 @@ To display validation, supercharged form class has `onValidationError` callback:
 
 ```
 $ ->
-  new SuperchargedForm("[role='gateway-charge-form']", {
+  new SuperchargedForm("js-gateway-charge-form", {
     onValidationError: (errors)->
       console.log "supercharged validation errors: ", errors
   })
